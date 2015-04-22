@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="http://getbootstrap.com/favicon.ico">
+<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <title>WO API Examples</title>
+
+    <!-- Bootstrap core CSS -->
+    
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <!-- Custom styles for this template 
+    <link href="css/cover.css" rel="stylesheet">-->
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <!--<script src="./Cover Template for Bootstrap_files/ie-emulation-modes-warning.js"></script>-->
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	<script type="text/javascript" charset="utf-8" src="http://users.ecs.soton.ac.uk/jy2e08/WO/wo.js"> </script>
+</head>
+
+<body>
+    <div class="site-wrapper">
+        <div class="site-wrapper-inner">
+
+            <div class="cover-container">
+                <div class="masthead clearfix">
+                    <div class="inner">
+                        <h3 class="masthead-brand">Web Observatory</h3>
+                        <nav>
+                            <ul class="nav masthead-nav">
+                                <li class="active"><a href="http://webobservatory.soton.ac.uk">Web Observatory</a>
+                                </li>
+                                <li><a href="https://github.com/xgfd/NUS-tul">Github Entry</a>
+                                </li>
+                                <li><a href="http://webobservatory.soton.ac.uk/wo/visualisation#5489d93e5d38cda3271d843d">More info</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+
+                <div class="inner cover">
+                    <h1 class="cover-heading">Basic example</h1>
+                    <p class="lead">Click to see results</p>
+                    <p class="lead">
+                        <button href="#" id='authButton' class="btn btn-lg btn-default connect">Connect</button>
+                        <p class="lead result"></p>
+                </div>
+				
+				<div class="inner cover">
+                    <textarea class="form-control" rows="3" id="querybox"></textarea>
+					<button href="#" id='queryButton' class="btn btn-lg btn-default connect">Query</button>
+                </div>
+				
+				
+
+				<script type="text/javascript" charset="utf-8" >
+				var client = new WO("webobservatory.soton.ac.uk","55197ade2a80faff1366c49e"); //new client
+				$('#authButton').click(client.login);
+				//document.getElementById("authButton").addEventListener("click",client.login);
+				
+				var cb = function(err, data)
+				{
+					if (!err)
+					{
+						console.log(data);
+					}
+					else
+					{
+						console.log(err);
+					}
+				};
+				
+				var queryfunc = function()
+				{
+					var querystring = $('#querybox').val();
+					console.log(querystring);
+					client.query('52e19220bef627683c79c3a6',querystring,cb);
+				}
+				
+				$('#queryButton').click(queryfunc);
+				
+				
+				
+				
+				</script>
+				
+				
+				
+				
+				
+				
+                <div class="mastfoot">
+                    <div class="inner">
+                        <p>Cover template for <a href="http://getbootstrap.com/">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster 
+    <script src="./Cover Template for Bootstrap_files/jquery.min.js"></script>-->
+	
+    	 
+		 
+		 
+		 
+		 
+		 
+		 
+	<script type="text/javascript" charset="utf-8">	 
+	/*	 
+         //do your business here
+        $(function()
+        {
+            //an example
+            var options = {
+                //things you'd like to do AFTER having the access token
+                after: function(token)
+                {
+                    alert('Your access token is ' + token); // show your access token
+                },
+                //things you'd like to do BEFORE having the access token
+                before: function(authUrl)
+                {
+                    $("a.connect").attr("href", authUrl); //display a link to 
+                }
+            };
+
+            var client = WO("webobservatory.soton.ac.uk","53cd0826eaba57bd64ffa6fb"); //new client
+			console.log(client);
+			$('#authButton').click(client.login);
+			
+            var queryopt = {
+                query:
+                {
+                    modname: "tweets", //mongodb collection name, required
+                    query: "{}", //mongodb query, required
+                    limit: 20, //query modifier, optional
+                    skip: 0 //query modifier, optional
+                },
+                //dataset id of interest, required
+                dataset: "548047c832582f2c45520ce7" //ebola mongodb 
+            };
+
+            //callback function, what you'd like to do with the results, stored in response
+            var nowIhaveData = function(data)
+            {
+
+                var container = $('p.result');
+                if (data)
+                {
+                  alert(data);
+                    //$('a.connect').fadeOut();
+                    //container.text(data);
+                }
+                else
+                {
+                    alert("Error occured");
+                    //container.text("An error occurred.");
+                }
+            };
+            client.query(queryopt, nowIhaveData);
+        });
+		*/
+    </script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <!--<script src="./Cover Template for Bootstrap_files/docs.min.js"></script>-->
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!--<script src="./Cover Template for Bootstrap_files/ie10-viewport-bug-workaround.js"></script>-->
+
+
+    
+</body>
+
+</html>
