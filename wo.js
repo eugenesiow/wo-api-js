@@ -2,12 +2,12 @@
 var WO = function(base, client_id)
 {
 	var woHost = "https://" + base,
-		resourceHost = "https://" + base + "/api/wo/",
-		endUserAuthorizationEndpoint = woHost + "/oauth/authorise",
-		authURL = endUserAuthorizationEndpoint +
-		"?response_type=token" +
-		"&client_id=" + client_id +
-		"&redirect_uri=" + window.location;
+	resourceHost = "https://" + base + "/api/wo/",
+	endUserAuthorizationEndpoint = woHost + "/oauth/authorise",
+	authURL = endUserAuthorizationEndpoint +
+	"?response_type=token" +
+	"&client_id=" + client_id +
+	"&redirect_uri=" + window.location;
 		
 	this.login = function ()
 	{
@@ -33,30 +33,35 @@ var WO = function(base, client_id)
 	this.query = function(id, options, callback)
 	{
 		var token = extractToken(document.location.hash);
-//if options is 
-		if (token && typeof options == 'string')
+
+		var opts;
+		if (typeof options == 'string')
+                {
+                        opts = {query:options};
+                }
+		else
 		{
-		/*
-			if (after && typeof after === 'function')
-			{
-				after(me.token);
-			}
-*/
+			opts = options;
+		}
+
+		if (token)
+		{
 			$.ajax(
 			{
 				type: 'get',
-				url: resourceHost + id + '/endpoint',
-				data: options,
+				url: woHost +'/api/wo/'+ id + '/endpoint',
+				data: opts,
 				headers:
 				{
 					Authorization: 'Bearer ' + token
 				}
 			}).done(callback);
 			
-			console.log(token);
-			console.log(id);
-			console.log(options);
-			console.log(callback);
+			//console.log(token);
+			//console.log(id);
+			//console.log(options);
+			//console.log(woHost +'/api/wo/'+ id + '/endpoint');
+			
 		}
 		else
 		{
