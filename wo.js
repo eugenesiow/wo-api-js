@@ -41,6 +41,7 @@ var WO = function(base, client_id)
                 }
 		else
 		{
+			//TODO check compulsory fields, e.g. 'query' must exist and be a string
 			opts = options;
 		}
 
@@ -65,6 +66,7 @@ var WO = function(base, client_id)
 		}
 		else
 		{
+			//TODO return an error code via callback
 			console.log("need to login before making query");
 			location.href=authURL;
 		}
