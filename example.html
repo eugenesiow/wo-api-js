@@ -10,6 +10,7 @@
     <meta name="author" content="">
     <link rel="icon" href="http://getbootstrap.com/favicon.ico">
 <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
     <title>WO API Examples</title>
 
     <!-- Bootstrap core CSS -->
@@ -28,7 +29,7 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 	<!--<script type="text/javascript" charset="utf-8" src="http://rawgit.com/xgfd/wo-api-js/master/wo.js"> </script>-->
-	<script type="text/javascript" charset="utf-8" src="/wo.js"> </script>
+	<script type="text/javascript" charset="utf-8" src="wo.js"> </script>
 </head>
 
 <body>
@@ -62,19 +63,22 @@
 				
 		<div class="inner cover">
             		<textarea class="form-control" rows="3" id="querybox"></textarea>
-			<button href="#" id='queryButton' class="btn btn-lg btn-default connect">Query</button>
+			<button href="#" id='strqueryButton' class="btn btn-lg btn-default connect">Query(str)</button><button href="#" id='objqueryButton' class="btn btn-lg btn-default connect">Query(Obj)</button>
                 </div>
+		<button href="#" id='streamButton' class="btn btn-lg btn-default connect">Stream</button><button href="#" id='liststreamButton' class="btn btn-lg btn-default connect">List Stream</button>
+		<button href="#" id='closedatasetButton' class="btn btn-lg btn-default connect">Close Dataset</button>
+		<button href="#" id='closestreamButton' class="btn btn-lg btn-default connect">Close Last Stream</button>
 		<script type="text/javascript" charset="utf-8" >
 		
 				var client = new WO("webobservatory.soton.ac.uk","55197ade2a80faff1366c49e"); //new client
-				$('#authButton').click(client.login);
+				$('#authButton').click(client.login); // assign the button to login
 				//document.getElementById("authButton").addEventListener("click",client.login);
 
-				var hash = window.location.hash;
+				var hash = window.location.hash; //getting the access token after the hash after login.
 				if (hash.match(/access_token/g))
 				{
-					$('#authButton').text('Logged in');
-					$('#authButton').prop('disabled',true);
+					$('#authButton').text('Logged in'); 
+					$('#authButton').prop('disabled',true); 
 				}
 				var cb = function(err, data)
 				{
@@ -88,18 +92,109 @@
 					}
 				};
 				
+				//stream callback
+				var scb = function(err, data, stream)
+				{
+					if (!err)
+					{
+						console.log("stream data: ");
+						console.log(data);
+						console.log("stream object:");
+						console.log(stream);
+					}
+					else
+					{
+						console.log(err);
+					}
+				};
+				
+				
+				
+				
+				//string query function example: 
 				var queryfunc = function()
 				{
-					var querystring = $('#querybox').val();
+					var querystring = "SELECT * WHERE {  ?subject rdf:type ?class} LIMIT 10";
+					
+					if ($('#querybox').val()) //use the query in the text box if specified
+					{
+					    querystring = $('#querybox').val();
+					}
+					    
 					console.log(querystring);
 					client.query('52e19220bef627683c79c3a6',querystring,cb);
 				}
 				
-				$('#queryButton').click(queryfunc);
+				$('#strqueryButton').click(queryfunc);   //assign the query function to query button
+
+
+
+				//object query function example:
+				var objqueryfunc = function()
+				{
+				    var q =  {
+					collection:"abuse_entries_2014_12", 
+					query:'{}', 
+					limit:1,
+					skip:0
+					};
+				    
+				    if ($('#querybox').val()) //use the query in the text box if specified
+				    {
+					q.query = $('#querybox').val();
+				    }
+				    client.query("54eb0a1d590ea23530f24644",q,cb);
+				}
+				$('#objqueryButton').click(objqueryfunc); //assign the query function to query button
 				
 				
 				
-				
+				//open stream function example:
+				var openstreamfunc = function()
+				{
+				    var q =  {
+					query:"logs",
+					};
+				    
+//				    if ($('#querybox').val()) //use the query in the text box if specified
+//				    {
+//					q.query = $('#querybox').val();
+//				    }
+//console.log(q);
+//console.log(scb);
+				    client.openStream("54eb13d7590ea23530f24645",q,scb);
+//				    client.openStream("54eb13d7590ea23530f24645","logs",scb);
+				}
+				$('#streamButton').click(openstreamfunc); //assign the query function to query button
+
+				var liststreamfunc = function()
+				{
+					//console.log(client.listStream('54eb13d7590ea23530f24645'));
+					console.log(client.listStream());
+				}
+
+				$('#liststreamButton').click(liststreamfunc);
+
+				var closestreamfunc = function()
+				{
+					//console.log(client.listStream('54eb13d7590ea23530f24645'));
+					
+					client.closeStream(client.listStream()[0],function(err){console.log(err);});
+				}
+
+				$('#closestreamButton').click(closestreamfunc);
+
+				var closedatasetfunc = function()
+				{
+					//console.log(client.listStream('54eb13d7590ea23530f24645'));
+					client.closeStream('54eb13d7590ea23530f24645',function(err){console.log(err);});
+				}
+
+				$('#closedatasetButton').click(closedatasetfunc);
+
+
+
+
 				</script>
 				
 				
