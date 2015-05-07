@@ -125,6 +125,11 @@ var WO = function(base, client_id)
 			if (dids.indexOf(id) > -1)
 			{
 				//matches a dataset id. close this dataset.
+				for (var i=0; i< datastreams[id].length; i++)
+				{
+					//close the connection for all streams within this dataset:
+					datastreams[id][i].emit('stop');
+				}
 				delete datastreams[id];
 			}
 			else
@@ -137,8 +142,9 @@ var WO = function(base, client_id)
 						//console.log(datastreams[key][i].nsp);
 						if (datastreams[key][i].nsp == id)
 						{
-							datastreams[key].splice(i,1);
 							//close the connection for this stream
+							datastreams[key][i].emit('stop');
+							datastreams[key].splice(i,1);
 						}
 					}
 					
