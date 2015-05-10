@@ -36,7 +36,7 @@ var WO = function(base, client_id)
 	this.query = function(id, options, callback)
 	{
 		var token = extractToken(document.location.hash);
-
+		console.log(token);
 		var opts;
 		if (typeof options == 'string')
                 {
