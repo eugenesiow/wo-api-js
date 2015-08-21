@@ -42,7 +42,7 @@
                         <h3 class="masthead-brand">Web Observatory</h3>
                         <nav>
                             <ul class="nav masthead-nav">
-                                <li class="active"><a href="http://webobservatory.soton.ac.uk">Web Observatory</a>
+                                <li class="active"><a href="http://ui.webobservatory.me">Web Observatory</a>
                                 </li>
                                 <li><a href="https://github.com/xgfd/NUS-tul">Github Entry</a>
                                 </li>
@@ -70,7 +70,7 @@
 		<button href="#" id='closestreamButton' class="btn btn-lg btn-default connect">Close Last Stream</button>
 		<script type="text/javascript" charset="utf-8" >
 		
-				var client = new WO("webobservatory.soton.ac.uk","55197ade2a80faff1366c49e"); //new client
+				var client = new WO("ui.webobservatory.me","55d6b06b4d6b5d1d21449967"); //new client
 				$('#authButton').click(client.login); // assign the button to login
 				//document.getElementById("authButton").addEventListener("click",client.login);
 
@@ -116,7 +116,7 @@
 				//string query function example: 
 				var queryfunc = function()
 				{
-					var querystring = "SELECT * WHERE {  ?subject rdf:type ?class} LIMIT 10";
+					var querystring = "select * from iot.traffic_data limit 50;";
 					
 					if ($('#querybox').val()) //use the query in the text box if specified
 					{
@@ -124,7 +124,7 @@
 					}
 					    
 					console.log(querystring);
-					client.query('52e19220bef627683c79c3a6',querystring,cb);
+					client.query('55d587a24d6b5d1d21449966',querystring,cb);
 				}
 				
 				$('#strqueryButton').click(queryfunc);   //assign the query function to query button
@@ -145,7 +145,7 @@
 				    {
 					q.query = $('#querybox').val();
 				    }
-				    client.query("54eb0a1d590ea23530f24644",q,cb);
+				    client.query("55d587a24d6b5d1d21449966",q,cb);
 				}
 				$('#objqueryButton').click(objqueryfunc); //assign the query function to query button
 				
